@@ -1,0 +1,14 @@
+# yii
+yii
+
+# assets
+web/assets/*
+
+# runtime data
+application/runtime/*
+
+# sqlite db
+application/data/*
+
+# vendor symlinks
+application/vendors/Smarty

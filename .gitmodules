@@ -1,0 +1,6 @@
+[submodule "application/extensions/yiiext/renderers/smarty"]
+	path = application/extensions/yiiext/renderers/smarty
+	url = https://github.com/yiiext/smarty-renderer.git
+[submodule "application/extensions/yiiext/commands/migrate"]
+	path = application/extensions/yiiext/commands/migrate
+	url = https://github.com/yiiext/migrate-command.git
