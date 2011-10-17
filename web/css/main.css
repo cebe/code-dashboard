@@ -9,7 +9,7 @@ body
 
 #page
 {
-	margin-top: 5px;
+	margin-top: 0px;
 	margin-bottom: 5px;
 	background: white;
 	border: 1px solid #C9E0ED;
@@ -19,7 +19,7 @@ body
 {
 	margin: 0;
 	padding: 0;
-	border-top: 3px solid #C9E0ED;
+    float: right;
 }
 
 #content
@@ -43,8 +43,9 @@ body
 
 #logo
 {
-	padding: 10px 20px;
-	font-size: 200%;
+	padding: 2px 20px;
+	font-size: 135%;
+    color: #fff;
 }
 
 #mainmenu

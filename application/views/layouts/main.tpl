@@ -21,20 +21,22 @@
 
 <div class="container" id="page">
 
-	<div id="header">
-		<div id="logo">{CHtml::encode(Yii::app()->name)}</div>
-	</div><!-- header -->
-
 	<div id="mainmenu">
+        
+        <div id="header">
+            <div id="logo">{CHtml::encode(Yii::app()->name)}</div>
+        </div><!-- header -->
+
 		{$this->widget('zii.widgets.CMenu', [
 			'items'=>[
-				['label'=>'Home', 'url'=>['/site/index']],
+				['label'=>'Code', 'url'=>['/code/default/index']],
 				['label'=>'About', 'url'=>['/site/page', 'view'=>'about']],
 				['label'=>'Contact', 'url'=>['/site/contact']],
 				['label'=>'Login', 'url'=>['/site/login'], 'visible'=>Yii::app()->user->isGuest],
 				['label'=>'Logout ('|cat:Yii::app()->user->name|cat:')', 'url'=>['/site/logout'], 'visible'=>!Yii::app()->user->isGuest]
 			]
 		], true)}
+            
 	</div><!-- mainmenu -->
 
 	{$this->widget('zii.widgets.CBreadcrumbs', [

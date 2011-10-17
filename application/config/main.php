@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 $return = array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Web Management',
+	'name'=>'Code Dashboard',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -26,6 +26,14 @@ $return = array(
 		 	// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
+        'code'=>array(
+            'repositories'=>array(
+                'main'=>array(
+                    //'basePath'=>dirname(dirname(dirname(__FILE__))),
+                    'basePath'=>'/home/cebe/dev/github/phpunit/',
+                ),
+            ),
+        ),
 	),
 
 	// application components
