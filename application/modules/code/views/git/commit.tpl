@@ -1,22 +1,32 @@
 <h1>commit {$commit->shortSha} {$commit->summary}</h1>
 
+{$parents = []}
+{foreach $commit->parents as $parent}
+    {$parents[] = CHtml::link($parent, ['/code/git/commit', 'sha'=>$parent])}
+{/foreach}
 {$this->widget('zii.widgets.CDetailView', [
     'data'=>$commit,
     'attributes'=>[
 		'sha',
 		'author',
 		'authorDate:datetime',
-		'committer',
-		'commitDate:datetime',
+		[
+			'name'=>'committer',
+			'visible'=>($commit->committer!=$commit->author)
+		],
+		[
+			'name'=>'commitDate:datetime',
+			'visible'=>($commit->commitDate!=$commit->authorDate)
+		],
 		[
 			'name'=>'merge',
 			'visible'=>!is_null($commit->merge)
 		],
 		[
-			'name'=>'parent',
+			'name'=>'parents',
 			'type'=>'raw',
-			'value'=>CHtml::link($commit->parent, ['/code/git/commit', 'sha'=>$commit->parent]),
-			'visible'=>!is_null($commit->parent)
+			'value'=>implode(', ', $parents),
+			'visible'=>!empty($commit->parents)
 		],
 		[
 			'name'=>'tree',

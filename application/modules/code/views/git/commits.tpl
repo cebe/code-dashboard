@@ -14,6 +14,7 @@
 {$this->widget('zii.widgets.grid.CGridView', [
     'id' => 'commit-grid',
     'dataProvider' => $dataProvider,
+	'template' => '{summary}{pager}<br/>{items}{pager}<br/>{summary}',
     'columns' => [
         [
             'header'=>'Graph',
