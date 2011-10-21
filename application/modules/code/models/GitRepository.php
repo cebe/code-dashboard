@@ -2,11 +2,15 @@
 
 /**
  *
- * @property string $basePath
+ * @property-read string $basePath
+ * @property-read string $defaultBranch
+ * @property string $currentBranch
  */
 class GitRepository extends CModel
 {
-    public $basePath = '';
+    private $_basePath = '';
+    private $_defaultBranch = 'master';
+    private $_currentBranch = 'master';
 
 
     public function attributeNames()
@@ -19,6 +23,83 @@ class GitRepository extends CModel
         return array(
             array('basePath', 'safe'),
         );
+    }
+
+    public function getBasePath()
+    {
+        return $this->_basePath;
+    }
+
+    public function getDefaultBranch()
+    {
+        return $this->_defaultBranch;
+    }
+
+    public function getCurrentBranch()
+    {
+        return $this->_currentBranch;
+    }
+
+    /**
+     * set and checkout current branch
+     *
+     * non existing branch names will have no effect.
+     * null means (no branch)
+     * @param $branchName
+     */
+    public function setCurrentBranch($branchName)
+    {
+        if (is_null($branchName)) {
+            $this->currentBranch = null;
+        } elseif (isset($this->branches[$branchName])) {
+            $this->_currentBranch = $branchName;
+            $this->runGitCommand('checkout', array('"'.$branchName.'"'));
+        }
+    }
+    /**
+     * @param string|array $config if array or $basePath if string
+     */
+    public function __construct($config)
+    {
+        if (is_string($config)) {
+            $config = array('basePath'=>$config);
+        }
+        $this->_basePath = $config['basePath'];
+        unset($config['basePath']);
+        $this->setAttributes($config, false);
+        // getBranches sets defaultBranch
+        $this->getBranches(true);
+        $this->currentBranch = $this->defaultBranch;
+    }
+
+    public function __destruct()
+    {
+        $this->currentBranch = $this->defaultBranch;
+    }
+
+    /**
+     * @param bool $construct only for internal usage!
+     * @return array
+     */
+    public function getBranches($construct=false)
+    {
+        $options = array(/*'-a'*/);
+        list($stdOut, $stdErr) = $this->runGitCommand('branch', $options);
+
+        $branches = array();
+        foreach(explode("\n", $stdOut) as $branch) {
+            if (preg_match('/^(\*| ) (\(no branch\)|[^ ]*) ?.*$/', $branch, $matches)) {
+                if ($matches[2] != '(no branch)') {
+                    if ($matches[1] == '*') {
+                        $this->_defaultBranch = $matches[2];
+                    }
+                    $branches[$matches[2]] = $matches[2];
+                } else {
+                    $this->_defaultBranch = null;
+                }
+            }
+        }//print_r($branches);die();
+        return $branches;
     }
 
     public function getCommits($limit=null)

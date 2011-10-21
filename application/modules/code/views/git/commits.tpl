@@ -1,5 +1,16 @@
 <h1>{$this->id|cat:'/'|cat:$this->action->id}</h1>
 
+<div id="repo-selector">
+    {$form=$this->beginWidget('CActiveForm', [
+        'id'=>'repo-selector-form',
+        'enableAjaxValidation'=>false,
+        'method'=>'get'
+    ])}
+        {CHtml::dropDownList('branch', $repo->currentBranch, $repo->branches)}
+        {CHtml::submitButton('Go', ['name'=>null])}
+    {$end=$this->endWidget()}
+</div>
+
 {$this->widget('zii.widgets.grid.CGridView', [
     'id' => 'commit-grid',
     'dataProvider' => $dataProvider,

@@ -8,7 +8,7 @@ class GitController extends Controller
 {
     public $defaultAction = 'commits';
 
-	public function actionCommits()
+	public function actionCommits($branch='master')
 	{
         $this->breadcrumbs=array(
         	'Git'=>array('/code/git'),
@@ -16,8 +16,8 @@ class GitController extends Controller
         );
 
         foreach($this->module->repositories as $repoConfig) {
-            $repo = new GitRepository();
-            $repo->attributes = $repoConfig;
+            $repo = new GitRepository($repoConfig);
+            $repo->currentBranch = $_GET['branch'];
             $dataProvider = new CArrayDataProvider(
                 array_values($repo->getCommits(1000)),
                 array(
@@ -30,6 +30,7 @@ class GitController extends Controller
         }
 
 		$this->render('commits', array(
+            'repo' => $repo,
             'dataProvider' => $dataProvider,
         ));
 	}
@@ -37,8 +38,7 @@ class GitController extends Controller
     public function actionCommit($sha)
    	{
         foreach($this->module->repositories as $repoConfig) {
-            $repo = new GitRepository();
-            $repo->attributes = $repoConfig;
+            $repo = new GitRepository($repoConfig);
             $commit = $repo->getCommit($sha);
         }
 
