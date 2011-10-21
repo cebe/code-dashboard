@@ -1,15 +1,23 @@
-<h1>{$this->id|cat:'/'|cat:$this->action->id} {$commit->shortSha}</h1>
+<h1>commit {$commit->shortSha} {$commit->summary}</h1>
 
-{$commit->author}<br/>
-{$commit->date|date_format}<br/>
-{$commit->comment}
-{*$this->widget('zii.widgets.grid.CListView', [
-    'id' => 'commit-grid',
-    'dataProvider' => $dataProvider,
-    'columns' => [
-        'shortSha',
-        'date:datetime',
-        'author',
-        'summary'
+{$this->widget('zii.widgets.CDetailView', [
+    'data'=>$commit,
+    'attributes'=>[
+		'sha',
+		'author',
+		'authorDate:datetime',
+		'committer',
+		'commitDate:datetime',
+		[
+			'name'=>'comment',
+			'type'=>'raw',
+			'value'=>$commit->comment|nl2br
+		]
     ]
-], true)*}
+], true)}
+
+{foreach $commit->diffs as $diff}
+	{$highliter=$this->beginWidget('ext.diffFormatter.DiffFormatter', [
+		'language'=>'php'
+	])}{$diff}{$end=$this->endWidget()}
+{/foreach}

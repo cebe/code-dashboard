@@ -26,7 +26,7 @@
             'labelExpression'=>'$data->shortSha',
             'urlExpression'=>'Yii::app()->controller->createUrl("/code/git/commit", array("sha"=>$data->sha))'
         ],
-        'date:datetime',
+        'authorDate:datetime',
         'author',
         'summary'
     ]
