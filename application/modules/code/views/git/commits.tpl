@@ -6,7 +6,7 @@
         'enableAjaxValidation'=>false,
         'method'=>'get'
     ])}
-        {CHtml::dropDownList('branch', $repo->currentBranch, $repo->branches)}
+        {CHtml::dropDownList('branch', $branch, ['__ALL__'=>'show all'] + $repo->branches)}
         {CHtml::submitButton('Go', ['name'=>null])}
     {$end=$this->endWidget()}
 </div>

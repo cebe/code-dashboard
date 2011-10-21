@@ -8,7 +8,7 @@ class GitController extends Controller
 {
     public $defaultAction = 'commits';
 
-	public function actionCommits($branch='master')
+	public function actionCommits($branch='__ALL__')
 	{
         $this->breadcrumbs=array(
         	'Git'=>array('/code/git'),
@@ -17,9 +17,12 @@ class GitController extends Controller
 
         foreach($this->module->repositories as $repoConfig) {
             $repo = new GitRepository($repoConfig);
-            $repo->currentBranch = $branch;
             $dataProvider = new CArrayDataProvider(
-                array_values($repo->getCommits(1000)),
+                array_values(
+	                $repo->getCommits(
+		                ($branch=='__ALL__') ? null : $branch, 10000
+	                )
+                ),
                 array(
                     'keyField' => 'sha',
                     'pagination' => array(
@@ -31,6 +34,7 @@ class GitController extends Controller
 
 		$this->render('commits', array(
             'repo' => $repo,
+			'branch' => $branch,
             'dataProvider' => $dataProvider,
         ));
 	}
