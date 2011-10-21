@@ -9,6 +9,20 @@
 		'committer',
 		'commitDate:datetime',
 		[
+			'name'=>'merge',
+			'visible'=>!is_null($commit->merge)
+		],
+		[
+			'name'=>'parent',
+			'type'=>'raw',
+			'value'=>CHtml::link($commit->parent, ['/code/git/commit', 'sha'=>$commit->parent]),
+			'visible'=>!is_null($commit->parent)
+		],
+		[
+			'name'=>'tree',
+			'visible'=>!is_null($commit->tree)
+		],
+		[
 			'name'=>'comment',
 			'type'=>'raw',
 			'value'=>$commit->comment|nl2br
