@@ -53,13 +53,18 @@ body
 	background:white url(bg.gif) repeat-x left top;
 }
 
-#mainmenu ul
+#submenu
+{
+	background: #ccc;
+}
+
+#mainmenu ul, #submenu ul
 {
 	padding:6px 20px 5px 20px;
 	margin:0px;
 }
 
-#mainmenu ul li
+#mainmenu ul li, #submenu ul li
 {
 	display: inline;
 }

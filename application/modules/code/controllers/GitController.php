@@ -8,6 +8,12 @@ class GitController extends Controller
 {
     public $defaultAction = 'commits';
 
+	public $menu = array(
+		array('label'=>'Commits', 'url'=>array('/code/git/commits')),
+		array('label'=>'Tags', 'url'=>array('/code/git/tags')),
+		array('label'=>'People', 'url'=>array('/code/git/people')),
+	);
+
 	public function actionCommits($branch='__ALL__')
 	{
         $this->breadcrumbs=array(
