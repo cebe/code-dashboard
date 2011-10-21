@@ -27,7 +27,7 @@ class GitRepository extends CModel
 
     public function getBasePath()
     {
-        return $this->_basePath;
+        return $this->_basePath . ((substr($this->_basePath, -1, 1) == '/') ? '' : '/');
     }
 
     public function getDefaultBranch()
@@ -140,10 +140,10 @@ class GitRepository extends CModel
 
     public function getCommit($sha)
     {
-        $options = array($sha);
+        $options = array($sha, '--pretty=raw');
         list($stdOut, $stdErr) = $this->runGitCommand('show', $options);
 
-        $commit = new GitCommit($stdOut);
+        $commit = new GitCommit($stdOut, true);
         return $commit;
     }
 
@@ -191,5 +191,5 @@ class GitRepository extends CModel
 
 class GitException extends CException
 {
-    
+
 }

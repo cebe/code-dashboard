@@ -8,18 +8,23 @@ class GitCommit extends CModel
      * @var git commit properties
      */
     public $sha;
-    public $date;
-    public $author;
-    public $summary;
-    public $comment;
+	public $summary;
+	public $comment;
+	public $author;
+	public $authorDate;
+	public $committer;
+	public $commitDate;
     public $merge;
+	public $parent;
+	public $tree;
+	public $diffs;
 
     /**
      * @var part of the text-ascii-art-like-graph of this commit
      */
     public $treeGraph;
 
-    public function __construct($data)
+    public function __construct($data, $raw=false)
     {
         $data = explode("\n", $data);
         $lineCount = 0;
@@ -38,35 +43,60 @@ class GitCommit extends CModel
                         $part = 'body';
                         $lineCount = 0;
                     } else {
-                        $line = explode(': ', $line);
-                        $attribute = lcfirst($line[0]);
-                        switch($attribute) {
-                            case 'date':
-                                $this->$attribute = strtotime($line[1]);
-                            break;
-                            default:
-                                $this->$attribute = $line[1];
-                        }
+	                    if ($raw) {
+	                        $line = explode(' ', $line);
+	                        $attribute = lcfirst($line[0]);
+		                    unset($line[0]);
+		                    $line = implode(' ', $line);
+	                    } else {
+		                    $line = explode(': ', $line);
+							$attribute = lcfirst($line[0]);
+		                    $line = $line[1];
+	                    }
+	                    switch($attribute) {
+		                    case 'author':
+		                    case 'committer':
+		                        // @todo: timezone is currently ignored here
+			                    if ($raw && preg_match('/^(.* <.*?>) ([0-9]+) \+[0-9]{4}$/', $line, $matches)) {
+				                    $this->$attribute = $matches[1];
+				                    $this->{($attribute=='committer')?'commitDate':'authorDate'} = $matches[2];
+			                    } else {
+			                        $this->$attribute = $line;
+			                    }
+		             		break;
+							case 'date':
+								$this->authorDate = strtotime($line);
+							break;
+							default:
+						 	    $this->$attribute = $line;
+						}
                     }
                 break;
                 case 'body':
                     if ($lineCount++ == 0) {
-                        $this->summary = $line;
+                        $this->summary = trim($line);
                         if (strlen($this->summary) > 50) {
                             $this->summary = substr($this->summary, 0, 47) . '...';
                         }
                         $this->comment = $line;
+	                    break;
                     } else {
                         if (substr($line, 0, 4) == 'diff') {
                             $part = 'diff';
                             $lineCount = 0;
+	                        $diffId = -1;
                         } else {
-                            $this->comment .= "\n" . $line;
+                            $this->comment .= "\n" . trim($line);
+	                        break;
                         }
                     }
-                break;
                 case 'diff':
-                    // todo
+	                if (substr($line, 0, 4) == 'diff') {
+		                $diffId++;
+		                $this->diffs[$diffId] = $line . "\n";
+	                } else {
+		                $this->diffs[$diffId] .= $line . "\n";
+	                }
                 break;
             }
 
