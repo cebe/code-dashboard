@@ -29,8 +29,8 @@ $return = array(
         'code'=>array(
             'repositories'=>array(
                 'main'=>array(
-                    //'basePath'=>dirname(dirname(dirname(__FILE__))),
-                    'basePath'=>'/home/cebe/dev/github/phpunit/',
+                    'basePath'=>dirname(dirname(dirname(__FILE__))),
+                    //'basePath'=>'/home/cebe/dev/github/phpunit/',
                 ),
             ),
         ),

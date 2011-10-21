@@ -17,7 +17,7 @@ class GitController extends Controller
 
         foreach($this->module->repositories as $repoConfig) {
             $repo = new GitRepository($repoConfig);
-            $repo->currentBranch = $_GET['branch'];
+            $repo->currentBranch = $branch;
             $dataProvider = new CArrayDataProvider(
                 array_values($repo->getCommits(1000)),
                 array(
@@ -60,7 +60,7 @@ class GitController extends Controller
         	'Git'=>array('/code/git'),
         	'People',
         );
-        
+
 		$this->render('people');
 	}
 
