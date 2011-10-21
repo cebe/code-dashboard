@@ -3,15 +3,18 @@
 /**
  *
  * @property-read string $basePath
- * @property-read string $defaultBranch
+ * @property-read array $branches
  * @property string $currentBranch
  */
 class GitRepository extends CModel
 {
     private $_basePath = '';
-    private $_defaultBranch = 'master';
-    private $_currentBranch = 'master';
+	private $_currentBranch = 'master';
 
+	/**
+	 * @var string used to reset git branch to the one that was before using this class
+	 */
+    private $_defaultBranch = 'master';
 
     public function attributeNames()
     {
@@ -28,11 +31,6 @@ class GitRepository extends CModel
     public function getBasePath()
     {
         return $this->_basePath . ((substr($this->_basePath, -1, 1) == '/') ? '' : '/');
-    }
-
-    public function getDefaultBranch()
-    {
-        return $this->_defaultBranch;
     }
 
     public function getCurrentBranch()
@@ -69,12 +67,12 @@ class GitRepository extends CModel
         $this->setAttributes($config, false);
         // getBranches sets defaultBranch
         $this->getBranches(true);
-        $this->currentBranch = $this->defaultBranch;
+        $this->currentBranch = $this->_defaultBranch;
     }
 
     public function __destruct()
     {
-        $this->currentBranch = $this->defaultBranch;
+        $this->currentBranch = $this->_defaultBranch;
     }
 
     /**
@@ -98,7 +96,7 @@ class GitRepository extends CModel
                     $this->_defaultBranch = null;
                 }
             }
-        }//print_r($branches);die();
+        }
         return $branches;
     }
 
