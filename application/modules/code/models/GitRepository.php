@@ -153,6 +153,23 @@ class GitRepository extends CModel
         return $commit;
     }
 
+	public function getPersons()
+	{
+		$options = array(
+			'--all',
+			'--pretty="%an <%aE>%n%cn <%cE>"',
+		);
+		list($stdOut, $stdErr) = $this->runGitCommand('log', $options);
+
+		$persons = array();
+		foreach(array_unique(explode("\n", $stdOut)) as $person) {
+			if (!empty($person)) {
+				$persons[] = new GitPerson($person);
+			}
+		}
+		return $persons;
+	}
+
     protected function runGitCommand($gitCommand, $args=array())
     {
         $cmd = 'git ' . $gitCommand . ' ' . implode(' ', $args);

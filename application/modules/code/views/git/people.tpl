@@ -1,6 +1,12 @@
-<h1>{$this->id} . '/' . {$this->action->id}</h1>
+<h1>{$this->id|cat:'/'|cat:$this->action->id}</h1>
 
-<p>
-	You may change the content of this page by modifying
-	the file <tt>...</tt>.
-</p>
+{foreach $persons as $person}
+	{$this->widget('zii.widgets.CDetailView', [
+	    'data'=>$person,
+	    'attributes'=>[
+			'name',
+			'email'
+	    ]
+	], true)}
+	<br/>
+{/foreach}

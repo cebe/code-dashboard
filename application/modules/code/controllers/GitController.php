@@ -65,7 +65,13 @@ class GitController extends Controller
         	'People',
         );
 
-		$this->render('people');
+		foreach($this->module->repositories as $repoConfig) {
+			$repo = new GitRepository($repoConfig);
+		}
+
+		$this->render('people', array(
+			'persons' => $repo->getPersons(),
+		));
 	}
 
 	// Uncomment the following methods and override them if needed
