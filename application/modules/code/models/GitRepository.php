@@ -100,9 +100,17 @@ class GitRepository extends CModel
         return $branches;
     }
 
-    public function getCommits($limit=null)
+    public function getCommits($branch=null, $limit=null)
     {
-        $options = array('-z', '--date-order');
+	    if (!is_null($branch) && !isset($this->branches[$branch])) {
+		    throw new GitException('branch ' . $branch . ' does not exits.');
+	    }
+	    $options = array(
+		    is_null($branch) ? '--all' : $branch,
+		    '-z',
+		    '--date-order',
+	        '--cherry-pick', // do not show cherry picked commits twice
+	    );
         if ($limit) {
             $options[] = '-' . $limit;
         }
