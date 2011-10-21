@@ -15,9 +15,9 @@ class GitCommit extends CModel
 	public $committer;
 	public $commitDate;
     public $merge;
-	public $parent;
 	public $tree;
-	public $diffs;
+	public $parents = array();
+	public $diffs = array();
 
     /**
      * @var part of the text-ascii-art-like-graph of this commit
@@ -57,13 +57,16 @@ class GitCommit extends CModel
 		                    case 'author':
 		                    case 'committer':
 		                        // @todo: timezone is currently ignored here
-			                    if ($raw && preg_match('/^(.* <.*?>) ([0-9]+) \+[0-9]{4}$/', $line, $matches)) {
+			                    if ($raw && preg_match('/^(.* <.*?>) ([0-9]+) [\+|-][0-9]{4}$/', $line, $matches)) {
 				                    $this->$attribute = $matches[1];
 				                    $this->{($attribute=='committer')?'commitDate':'authorDate'} = $matches[2];
 			                    } else {
 			                        $this->$attribute = $line;
 			                    }
 		             		break;
+		                    case 'parent':
+			                    $this->parents[] = $line;
+			                break;
 							case 'date':
 								$this->authorDate = strtotime($line);
 							break;
