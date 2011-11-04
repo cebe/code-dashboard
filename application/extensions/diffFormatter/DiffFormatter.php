@@ -55,37 +55,56 @@ class DiffFormatter extends COutputProcessor //CTextHighlighter
 		//$stdOut;
 
 		Yii::app()->getClientScript()->registerCss('diffFormat',
-			'td.diffpresent {
-				width: 45%;
+		   'td.diffpresent { width: 47%; }
+			td.diffline    { width:  3%; }
+
+			td.diffline, td.diffpresent {
 				font-family: monospace;
+				border-bottom: solid 1px #ddd;
 			}
-			td.diffline {
-				width: 5%;
+
+			.diffadded td, .diffchanged td, .diffdeleted td {
+				background: #EEEEEE !important;
 			}
+
+			/** unmodified **/
 			.diffponct {
 				color: #CCCCCC;
 			}
-			.diffadded td .diffponct {
-				color: #00CC00;
-			 }
 			.diffunmodified td {
 				color: #555555;
 			}
 
-			.diffadded td, .diffchanged td {
-				background: #DDDDDD !important;
-			}
-
+			/** added **/
+			.diffadded td .diffponct {
+				color: #77CC77;
+			 }
 			.diffadded td.diffpresent {
 				color: #000000;
-				background: #00AA00 !important;
+				background: #CCFFCC !important;
 			}
+
+            /** deleted **/
+			.diffdeleted td .diffponct {
+				color: #CC7777;
+			 }
+			.diffdeleted td.diffpresent {
+				color: #000000;
+				background: #FFCCCC !important;
+			}
+
+            /** modified **/
 			.diffchanged td {
 				color: #000000;
+				background: #EEEEEE !important;
 			}
 			.diffchanged2 {
-				background: #AAAADD !important;
+				background: #DDDDFF !important;
 			}
+			.diffchanged2 .diffponct {
+				color: #7777CC;
+			 }
+
 			.diffbox-head {
 				height: 50px;
 
@@ -100,7 +119,6 @@ class DiffFormatter extends COutputProcessor //CTextHighlighter
 				padding: 0;
 				margin: 0;
 			}
-
 			'
 		);
 		//CTextHighlighter::registerCssFile();
