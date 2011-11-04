@@ -16,7 +16,8 @@
 			'visible'=>($commit->committer!=$commit->author)
 		],
 		[
-			'name'=>'commitDate:datetime',
+			'name'=>'commitDate',
+			'type'=>'datetime',
 			'visible'=>($commit->commitDate!=$commit->authorDate)
 		],
 		[
