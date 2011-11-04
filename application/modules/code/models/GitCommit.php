@@ -29,6 +29,7 @@ class GitCommit extends CModel
         $data = explode("\n", $data);
         $lineCount = 0;
         $part = 'header';
+	    $diffs = array();
         foreach($data as $line)
         {
             switch ($part)
@@ -96,14 +97,23 @@ class GitCommit extends CModel
                 case 'diff':
 	                if (substr($line, 0, 4) == 'diff') {
 		                $diffId++;
-		                $this->diffs[$diffId] = $line . "\n";
+		                $diffs[$diffId] = $line . "\n";
 	                } else {
-		                $this->diffs[$diffId] .= $line . "\n";
+		                $diffs[$diffId] .= $line . "\n";
 	                }
+
                 break;
             }
 
         }
+	    foreach($diffs as $diffId => $diff)
+	    {
+		    $this->diffs[$diffId] = array(
+			    'fileName' => 'file' . $diffId, // @todo: extract file names from diff
+			    'diff' => $diff,
+		    );
+	    }
+
     }
 
     public function getShortSha()
