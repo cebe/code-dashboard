@@ -1,3 +1,4 @@
+<div style="margin: 0 auto; max-width: 1500px;">
 <h1>commit {$commit->shortSha} {$commit->summary}</h1>
 
 {$parents = []}
@@ -40,8 +41,36 @@
     ]
 ], true)}
 
-{foreach $commit->diffs as $diff}
-	{$highliter=$this->beginWidget('ext.diffFormatter.DiffFormatter', [
-		'language'=>'php'
-	])}{$diff}{$end=$this->endWidget()}
+{if !empty($commit->diffs)}
+<h1>files</h1>
+<ul>
+{foreach $commit->diffs as $diffId => $diff}
+	<li>{$diff.fileName} {CHtml::link('view diff', '#diff-'|cat:$diffId)}</li>
 {/foreach}
+</ul>
+{/if}
+
+<h1>comments</h1>
+
+{$this->widget('zii.widgets.CListView', [
+	'dataProvider'=>$comments,
+	'itemView'=>'//comment/_view'
+], true)}
+
+{$this->renderPartial('//comment/_form', [
+	'model'=>$comment,
+	'relation'=> ['type'=>'commit', 'key'=>$commit->sha]
+])}
+
+{if !empty($commit->diffs)}
+<h1>file diffs</h1>
+{foreach $commit->diffs as $diffId => $diff}
+	<div id="diff-{$diffId}">
+		{CHtml::link('top', '#', ['style'=>'float: right;'])}
+		{$highliter=$this->beginWidget('ext.diffFormatter.DiffFormatter', [
+			'language'=>'php'
+		])}{$diff.diff}{$end=$this->endWidget()}
+	</div>
+{/foreach}
+{/if}
+</div>

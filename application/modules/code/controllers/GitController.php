@@ -61,6 +61,8 @@ class GitController extends Controller
         $this->render('commit', array(
             'commit' => $commit,
            //'dataProvider' => $dataProvider,
+	        'comment' => new Comment(),
+	        'comments' => new CArrayDataProvider($commit->getComments()),
         ));
    	}
 

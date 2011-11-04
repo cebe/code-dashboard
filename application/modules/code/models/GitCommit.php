@@ -133,5 +133,9 @@ class GitCommit extends CModel
         );
     }
 
+	public function getComments()
+	{
+		return Comment::model()->findAllBySql("SELECT * FROM comments c JOIN comments_commits_map ccm ON c.id = ccm.commentId WHERE ccm.commitSha=:sha;", array(':sha'=>$this->sha));
+	}
 
 }
