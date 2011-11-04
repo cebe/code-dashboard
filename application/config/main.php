@@ -54,7 +54,8 @@ $return = array(
 		),
 		*/
 		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
+			'connectionString' => 'sqlite:'.dirname(dirname(__FILE__)).'/data/testdrive.db',
+            'initSQLs' => array("PRAGMA foreign_keys = ON;"),
 		),
 		// uncomment the following to use a MySQL database
 		/*
