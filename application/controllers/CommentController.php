@@ -106,7 +106,7 @@ class CommentController extends Controller
 					$model = new Comment();
 				}
 				$output .= $this->renderPartial('_form',array(
-					'model'=>$model,
+					'comment'=>$model,
 					'ajaxId'=>time(),
 					'relation'=>$_POST['CommentRelation'], // @todo: check input!
 				), true);

@@ -20,6 +20,6 @@ class m111104_135414_commentTable extends CDbMigration
 	public function down()
 	{
 		$this->dropTable('comments');
-		$this->dropTable('comments_commit_map');
+		$this->dropTable('comments_commits_map');
 	}
 }

@@ -53,13 +53,9 @@
 
 <h1>comments</h1>
 
-{$this->widget('zii.widgets.CListView', [
-	'dataProvider'=>$comments,
-	'itemView'=>'//comment/_view'
-], true)}
-
-{$this->renderPartial('//comment/_form', [
-	'model'=>$comment,
+{$this->renderPartial('//comment/commentList', [
+	'comment'=>$comment,
+	'comments'=>$comments,
 	'relation'=> ['type'=>'commit', 'key'=>$commit->sha]
 ])}
 

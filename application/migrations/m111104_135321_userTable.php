@@ -19,7 +19,7 @@ class m111104_135321_userTable extends CDbMigration
 		Yii::import('application.models.User');
 		$user = new User();
 		$user->name = 'cbrandt';
-		$user->email = 'cbrandt@meta';
+		$user->email = 'mail@cebe.cc';
 		$user->id = 1;
 		$user->save();
 	}

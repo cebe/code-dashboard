@@ -9,6 +9,8 @@
  * @property string $realname
  * @property string $email
  *
+ * @property string $displayName
+ *
  * The followings are the available model relations:
  * @property Comments[] $comments
  * @property UsersEmails[] $usersEmails
@@ -46,6 +48,14 @@ class User extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('id, name, realname, email', 'safe', 'on'=>'search'),
 		);
+	}
+
+	public function getDisplayName()
+	{
+		if (is_null($this->realname) || $this->realname == 'NULL') {
+			return $this->name;
+		}
+		return $this->realname;
 	}
 
 	/**

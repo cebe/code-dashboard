@@ -4,3 +4,6 @@
 [submodule "application/extensions/yiiext/commands/migrate"]
 	path = application/extensions/yiiext/commands/migrate
 	url = https://github.com/yiiext/migrate-command.git
+[submodule "application/extensions/gravatar"]
+	path = application/extensions/gravatar
+	url = https://github.com/malyshev/yii-gravatar.git
