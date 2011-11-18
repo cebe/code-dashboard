@@ -10,6 +10,10 @@ Status
 
 I started the project just after checking out many code review tool of which none did cover my needs. It is in a very early development state so do not expect anything to work properly
 
+I will increment minor version until 1.0 with not keeping backwards compatibility in mind.
+All 1.0.x releases will be backwards compatible so update should not bring you any  trouble.
+If there are bigger changes that break BC to 1.0.x I will increase the minor version.
+
 Requirements
 ============
 
