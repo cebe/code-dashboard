@@ -1,4 +1,4 @@
-Code Dashboard
+Code Dashboard [![Project status](http://stillmaintained.com/cebe/code-dashboard.png)](http://stillmaintained.com/cebe/code-dashboard)
 ==============
 
 Code Dashboard claims to be a platform to keep track of your changes in your private Git repositories by providing a platform for code-review, commit listing and tagging and will link everything with your bugtracker.
